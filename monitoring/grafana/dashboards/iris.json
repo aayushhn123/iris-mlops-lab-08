@@ -1,0 +1,7 @@
+{"title":"Iris Model Monitoring","uid":"iris","schemaVersion":39,"refresh":"5s","time":{"from":"now-15m","to":"now"},
+"panels":[
+{"id":1,"type":"stat","title":"Total predictions","gridPos":{"x":0,"y":0,"w":6,"h":6},"datasource":{"type":"prometheus","uid":"prom"},"targets":[{"expr":"sum(iris_predictions_total)","datasource":{"type":"prometheus","uid":"prom"}}]},
+{"id":2,"type":"timeseries","title":"Predictions per species","gridPos":{"x":6,"y":0,"w":18,"h":6},"datasource":{"type":"prometheus","uid":"prom"},"targets":[{"expr":"iris_predictions_total","legendFormat":"{{species}}","datasource":{"type":"prometheus","uid":"prom"}}]},
+{"id":3,"type":"timeseries","title":"Avg prediction latency (s)","gridPos":{"x":0,"y":6,"w":12,"h":8},"datasource":{"type":"prometheus","uid":"prom"},"targets":[{"expr":"rate(iris_prediction_latency_seconds_sum[1m]) / rate(iris_prediction_latency_seconds_count[1m])","datasource":{"type":"prometheus","uid":"prom"}}]},
+{"id":4,"type":"timeseries","title":"Process memory (bytes)","gridPos":{"x":12,"y":6,"w":12,"h":8},"datasource":{"type":"prometheus","uid":"prom"},"targets":[{"expr":"process_resident_memory_bytes","datasource":{"type":"prometheus","uid":"prom"}}]}
+]}
