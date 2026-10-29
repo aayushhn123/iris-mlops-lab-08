@@ -1,4 +1,7 @@
-﻿import time
+﻿import os
+import subprocess
+import sys
+import time
 import joblib
 import streamlit as st
 from prometheus_client import Counter, Histogram, start_http_server
@@ -10,6 +13,8 @@ NAMES = load_iris().target_names
 @st.cache_resource
 def setup():
     """Load model and start the Prometheus metrics endpoint (port 8000) once per process."""
+    if not os.path.exists("model.joblib"):  # e.g. fresh Streamlit Cloud checkout
+        subprocess.run([sys.executable, "train.py"], check=True)
     start_http_server(8000)
     return (
         joblib.load("model.joblib"),
@@ -38,3 +43,4 @@ if st.button("Predict"):
     PRED.labels(species).inc()
     st.success(f"Predicted species: **{species}** ({probs.max():.0%} confidence)")
     st.bar_chart(dict(zip(NAMES, probs)))
+
